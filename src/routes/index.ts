@@ -78,7 +78,7 @@ router.delete("/delete", async (req:Request, res:Response) => {
 
 
 
-router.get("/add", async (req: Request, res: Response) => {
+router.post("/add", async (req: Request, res: Response) => {
     for (let i = 0; i < populateUserList.length; i++) {
         const todos = await Promise.all(
             populateUserList[i].todos.map(async (todoText) => {

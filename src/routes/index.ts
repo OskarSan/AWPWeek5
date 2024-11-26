@@ -12,7 +12,7 @@ type TUser = {
 const router: Router = Router();
 
 
-
+/*
 router.post('/add', async (req:Request, res:Response)=>{
     const dataEntry : TUser = req.body
     let userFound : boolean = false;
@@ -21,7 +21,7 @@ router.post('/add', async (req:Request, res:Response)=>{
     res.status(200).json({ "message" : `Todo added successfully for user ${dataEntry.name}` });
 })
 
-
+*/
 
 
 router.get("/todos/:id", async (req:Request, res:Response) =>{
@@ -78,7 +78,7 @@ router.delete("/delete", async (req:Request, res:Response) => {
 
 
 
-router.get("/api/users/populate", async (req: Request, res: Response) => {
+router.get("/add", async (req: Request, res: Response) => {
     for (let i = 0; i < populateUserList.length; i++) {
         const todos = await Promise.all(
             populateUserList[i].todos.map(async (todoText) => {

@@ -2,6 +2,7 @@ import mongoose, {Document, Schema} from "mongoose";
 
 interface ITodo {
     todo: string;
+    checked: boolean;
 }
 
 
@@ -15,7 +16,8 @@ interface IUser extends Document {
 
 // Create the Todo schema
 const todoSchema: Schema<ITodo> = new Schema({
-    todo: { type: String, required: true }
+    todo: { type: String, required: true },
+    checked: { type: Boolean, required: true, default: false }
 });
 
 // Create the User schema and reference the Todo schema

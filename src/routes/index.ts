@@ -66,9 +66,6 @@ router.put("/update", async (req: Request, res: Response) => {
     console.log(`Updating user: ${req.body.name}, removing todo: ${req.body.todo}`);
     let userFound = false;
     let todoFound = false;
-
-   
-   
     try{
         const user : IUser | null = await User.findOne({name : req.body.name});
         if (user) {
@@ -93,9 +90,40 @@ router.put("/update", async (req: Request, res: Response) => {
         console.log("error")
         res.status(500).json({message : "Internal server error"})
     }
-   
-   
 });
+
+router.put("/updateTodo", async (req: Request, res: Response) => {
+    const { name, todo, checked } = req.body;
+    console.log(`Updating user: ${name}, updating todo: ${todo}`);
+    let userFound = false;
+    let todoFound = false;
+    try {
+        const user: IUser | null = await User.findOne({ name });
+        if (user) {
+            userFound = true;
+            const todoIndex = user.todos.findIndex((t: ITodo) => t.todo === todo);
+            if (todoIndex !== -1) {
+                user.todos[todoIndex].checked = checked;
+                todoFound = true;
+                await user.save();
+            }
+        }
+        if (userFound && todoFound) {
+            res.status(200).json({ message: "Todo updated successfully." });
+        } else if (!userFound) {
+            res.status(404).json({ message: "User not found." });
+        } else {
+            res.status(404).json({ message: "Todo not found." });
+        }
+    } catch {
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
+
+
+
+
 
 router.delete("/delete", async (req:Request, res:Response) => {
    
@@ -116,9 +144,16 @@ router.post("/add", async (req: Request, res: Response) => {
         if (!Array.isArray(dataEntry.todos)) {
             dataEntry.todos = [dataEntry.todos]; 
         }
+
+        const newTodos: ITodo[] = dataEntry.todos.map(todoText => ({
+            todo: todoText,
+            checked: false // Default value for the 'checked' property
+        }));
+
         if(user){
-            const newTodos = dataEntry.todos.map(todoText => ({ todo: todoText }));
+          
             console.log("uudet todoot", newTodos)
+
             user.todos.push(...newTodos);
             await user.save();
             console.log("Todos added")

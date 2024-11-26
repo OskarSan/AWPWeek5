@@ -65,6 +65,26 @@
             todoJSON.todos.forEach((todo, index) => {
                 const listEntry = document.createElement('li');
                 const deleteLink = document.createElement('a');
+                const checkBox = document.createElement('input');
+                checkBox.type = "checkbox";
+                checkBox.checked = todo.checked;
+                checkBox.addEventListener("change", async (event) => {
+                    const res = await fetch("/updateTodo", {
+                        method: "PUT",
+                        headers: {
+                            "Content-type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name: searchInput,
+                            todo: todo.todo,
+                            checked: checkBox.checked
+                        })
+                    });
+                    const updateRes = await res.json();
+                    searchConfirmationText.textContent = updateRes.message;
+                    searchForm.appendChild(searchConfirmationText);
+                });
+                
                 deleteLink.href = "#";
                 deleteLink.textContent = todo.todo;
                 deleteLink.classList.add("delete-task");
@@ -90,7 +110,11 @@
                     }
                     searchForm.appendChild(searchConfirmationText);
                 });
+
+
+
                 listEntry.appendChild(deleteLink);
+                listEntry.appendChild(checkBox);
                 searchOutput.appendChild(listEntry);
             });
 

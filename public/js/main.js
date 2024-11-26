@@ -66,7 +66,8 @@
                 const listEntry = document.createElement('li');
                 const deleteLink = document.createElement('a');
                 const checkBox = document.createElement('input');
-                
+                const label = document.createElement('label');
+                const span = document.createElement('span');                
 
 
                 checkBox.type = "checkbox";
@@ -118,9 +119,11 @@
                 });
 
 
-
-                listEntry.appendChild(deleteLink);
-                listEntry.appendChild(checkBox);
+                
+                span.appendChild(deleteLink);
+                label.appendChild(checkBox);
+                label.appendChild(span);
+                listEntry.appendChild(label);
                 searchOutput.appendChild(listEntry);
             });
 

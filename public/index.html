@@ -2,29 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <script src="js/main.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+     <title>Document</title>
 </head>
 <body>
-    <form id="todoForm">
-        <input type="text" name="userInput" id="userInput">
-        <input type="text" name="todoInput" id="todoInput">
-        <button id="submit-data" type="submit">
-            submit
-        </button>
-    </form>
-
-    <form id="searchForm">
-        <input type="text" id="searchInput">
-        <button id="search" type="submit">search</button>
-        <ul id="todoList"></ul>
-    </form>
 
 
-    <button id="deleteUser" style="display: none;">Delete User</button>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">My App</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
     
-    <div id="deleteOutput"></div>
+    <div class="container">
+        
+        <div class="col">
+            <form id="todoForm">
+                <input type="text" name="userInput" id="userInput">
+                <input type="text" name="todoInput" id="todoInput">
+                <button id="submit-data" type="submit" class="btn">
+                    submit
+                </button>
+            </form>
+        
+        </div>
+        <div class="col">
+            <form id="searchForm">
+                <input type="text" id="searchInput">
+                <button id="search" type="submit" class="btn">search</button>
+                <ul id="todoList"></ul>
+            </form>
+        
+            <button id="deleteUser" style="display: none;" class="btn">
+                Delete User
+            </button>
+            
+            <div id="deleteOutput"></div>
+        </div>    
+        
+    </div>
+    
 </body>
 </html>

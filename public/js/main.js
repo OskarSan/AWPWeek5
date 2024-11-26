@@ -66,8 +66,14 @@
                 const listEntry = document.createElement('li');
                 const deleteLink = document.createElement('a');
                 const checkBox = document.createElement('input');
+                
+
+
                 checkBox.type = "checkbox";
                 checkBox.checked = todo.checked;
+                checkBox.id = "myCheckbox";
+                checkBox.className = "checkBoxes";
+
                 checkBox.addEventListener("change", async (event) => {
                     const res = await fetch("/updateTodo", {
                         method: "PUT",

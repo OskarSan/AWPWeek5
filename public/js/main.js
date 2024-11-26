@@ -61,12 +61,12 @@
             
 
         if (res.ok){
-            console.log(todoJSON)
+            console.log(todoJSON, "frontissa")
             todoJSON.todos.forEach((todo, index) => {
                 const listEntry = document.createElement('li');
                 const deleteLink = document.createElement('a');
                 deleteLink.href = "#";
-                deleteLink.textContent = todo;
+                deleteLink.textContent = todo.todo;
                 deleteLink.classList.add("delete-task");
                 deleteLink.addEventListener("click", async (event) => {
                     event.preventDefault();
@@ -77,7 +77,7 @@
                         },
                         body: JSON.stringify({
                             name: searchInput,
-                            todo: todo
+                            todos: todo
                         })
                     });
 

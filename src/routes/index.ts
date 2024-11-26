@@ -27,10 +27,17 @@ router.post('/add', async (req:Request, res:Response)=>{
 
 router.get("/todos/:id", async (req:Request, res:Response) =>{
     
-   
-    const userId = req.params.id;
-    console.log(userId);
     
+    const userName = req.params.id;
+    console.log(userName);
+    const user : IUser | null = await User.findOne({name : userName});
+    
+    if(user){
+        console.log(user.todos)
+        res.status(200).json({todos: user.todos});
+    }else{
+        res.status(404).json({message : "User not found"});
+    }
 
 });
 
@@ -86,10 +93,11 @@ router.post("/add", async (req: Request, res: Response) => {
     try {
         let user = await User.findOne({name: dataEntry.name});
         if (!Array.isArray(dataEntry.todos)) {
-            dataEntry.todos = []; 
+            dataEntry.todos = [dataEntry.todos]; 
         }
         if(user){
             const newTodos = dataEntry.todos.map(todoText => ({ todo: todoText }));
+            console.log("uudet todoot", newTodos)
             user.todos.push(...newTodos);
             await user.save();
             console.log("Todos added")

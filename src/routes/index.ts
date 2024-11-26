@@ -89,7 +89,7 @@ router.get("/api/users/populate", async (req: Request, res: Response) => {
         );
 
         const user: IUser = new User({
-            user: populateUserList[i].name,
+            name: populateUserList[i].name,
             todos: todos
         });
 

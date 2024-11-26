@@ -36,7 +36,7 @@ router.get("/todos/:id", async (req:Request, res:Response) =>{
 router.get("/api/allusers",async (req: Request, res: Response) => {
     try{
         const users : IUser[] | null = await User.find() 
-        if(!users){
+        if(users.length === 0){
             res.status(404).json({message : "No users found"})
         }else{
             res.status(200).json(users)

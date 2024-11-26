@@ -6,7 +6,7 @@ interface ITodo {
 
 
 interface IUser extends Document {
-    user: string;
+    name: string;
     todos: ITodo[];
 
 }
@@ -20,7 +20,7 @@ const todoSchema: Schema<ITodo> = new Schema({
 
 // Create the User schema and reference the Todo schema
 const userSchema: Schema<IUser> = new Schema({
-    user: { type: String, required: true },
+    name: { type: String, required: true },
     todos: [todoSchema]
 });
 

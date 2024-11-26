@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 
 import {User, Todo, IUser, ITodo} from "../models/User";
 import populateUserList from "../../data/users";
+import { todo } from "node:test";
 
 type TUser = {
     name: string;
@@ -79,24 +80,35 @@ router.delete("/delete", async (req:Request, res:Response) => {
 
 
 router.post("/add", async (req: Request, res: Response) => {
-    for (let i = 0; i < populateUserList.length; i++) {
-        const todos = await Promise.all(
-            populateUserList[i].todos.map(async (todoText) => {
-                const todo = new Todo({ todo: todoText });
-                await todo.save();
-                return todo;
-            })
-        );
 
-        const user: IUser = new User({
-            name: populateUserList[i].name,
-            todos: todos
-        });
+    const dataEntry : TUser = req.body
+    console.log(dataEntry)
+    try {
+        let user = await User.findOne({name: dataEntry.name});
+        if (!Array.isArray(dataEntry.todos)) {
+            dataEntry.todos = []; 
+        }
+        if(user){
+            const newTodos = dataEntry.todos.map(todoText => ({ todo: todoText }));
+            user.todos.push(...newTodos);
+            await user.save();
+            console.log("Todos added")
+        }else {
+            const newTodos = dataEntry.todos.map(todoText => ({ todo: todoText }));
+            user = new User({
+                name: dataEntry.name,
+                todos: newTodos
+            });
+            await user.save();
+            console.log("User added")
+        }
+        res.status(200).json({ "message" : `Todo added successfully for user ${dataEntry.name}` })
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message : "Internal server error"})
+    };
 
-        await user.save();
-    }
-    console.log("Users discombobulated");
-    res.json({ message: "Users discombobulated" });
+
 });
 
 

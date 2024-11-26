@@ -61,19 +61,40 @@ router.get("/api/allusers",async (req: Request, res: Response) => {
 router.put("/update", async (req: Request, res: Response) => {
    
     const { name, todo } = req.body;
-    console.log(`Updating user: ${name}, removing todo: ${todo}`);
+    console.log(req.body, "yrittää poistaa todo")
+   
+    console.log(`Updating user: ${req.body.name}, removing todo: ${req.body.todo}`);
     let userFound = false;
     let todoFound = false;
 
+   
+   
+    try{
+        const user : IUser | null = await User.findOne({name : req.body.name});
+        if (user) {
+            userFound = true;
+            const todoIndex = user.todos.findIndex((t: ITodo) => t.todo === req.body.todo);
+            if (todoIndex !== -1) {
+                user.todos.splice(todoIndex, 1);
+                console.log(user.todos, "poistettu todo")
+                todoFound = true;
+                await user.save();
+            }
+        }
     
-
-    if (userFound && todoFound) {
-        res.status(200).json({ message: "Todo deleted successfully." });
-    } else if (!userFound) {
-        res.status(404).json({ message: "User not found." });
-    } else {
-        res.status(404).json({ message: "Todo not found." });
+        if (userFound && todoFound) {
+            res.status(200).json({ message: "Todo deleted successfully." });
+        } else if (!userFound) {
+            res.status(404).json({ message: "User not found." });
+        } else {
+            res.status(404).json({ message: "Todo not found." });
+        }
+    } catch{
+        console.log("error")
+        res.status(500).json({message : "Internal server error"})
     }
+   
+   
 });
 
 router.delete("/delete", async (req:Request, res:Response) => {

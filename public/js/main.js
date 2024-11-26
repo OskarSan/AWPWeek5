@@ -77,7 +77,7 @@
                         },
                         body: JSON.stringify({
                             name: searchInput,
-                            todos: todo
+                            todo: todo.todo
                         })
                     });
 
